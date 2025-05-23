@@ -25,8 +25,7 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: gh-pages
-          folder: dist/wwwroot
+          publish_dir: .dist/wwwroot
           user_name: Ivan Patricio
           user_email: ivan.patricio.quispe@gmail.com
           clean: true
