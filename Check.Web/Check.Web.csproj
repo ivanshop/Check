@@ -1,9 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+	  
+	<PublishTrimmed>false</PublishTrimmed>
+    <BlazorWebAssemblyEnableLinking>true</BlazorWebAssemblyEnableLinking>
+	<StaticWebAssetBasePath>Check</StaticWebAssetBasePath>
   </PropertyGroup>
 
   <ItemGroup>
