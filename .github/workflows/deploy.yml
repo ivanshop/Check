@@ -3,7 +3,7 @@ name: Deploy Blazor App to GitHub Pages
 on:
   push:
     branches:
-      - master
+      - main
 
 permissions:
   contents: write
@@ -27,7 +27,9 @@ jobs:
             -p:PublishTrimmed=false \
             -p:PublishSingleFile=false \
             -p:BlazorEnableCompression=true \
-            -p:BlazorWebAssemblyLoadAllGlobalizationData=true
+            -p:BlazorWebAssemblyLoadAllGlobalizationData=true \
+            -p:StaticWebAssetBasePath=Check \
+            -p:BasePath=/Check/
 
       - name: Copy index.html to 404.html
         run: cp build_output/wwwroot/index.html build_output/wwwroot/404.html
