@@ -30,9 +30,19 @@ jobs:
             -p:BlazorWebAssemblyLoadAllGlobalizationData=true \
             -p:StaticWebAssetBasePath=Check \
             -p:BasePath=/Check/
+      - name: List contents of build_output
+        run: |
+            echo "::group::build_output"
+            ls -R build_output
+            echo "::endgroup::"
 
       - name: Copy index.html to 404.html
-        run: cp build_output/wwwroot/index.html build_output/wwwroot/404.html
+        run: |
+          if [ -f build_output/wwwroot/index.html ]; then
+            cp build_output/wwwroot/index.html build_output/wwwroot/404.html
+          else
+            echo "index.html not found, skipping copy"
+          fi
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
