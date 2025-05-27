@@ -26,7 +26,7 @@ jobs:
 
       - name: Publica la app
         run: |
-          ./Check.Web/Check.Web.csproj -c Release -o build_output \
+          dotnet publish ./Check.Web/Check.Web.csproj -c Release -o build_output \
             -p:PublishTrimmed=false \
             -p:PublishSingleFile=false \
             -p:BlazorEnableCompression=true \
