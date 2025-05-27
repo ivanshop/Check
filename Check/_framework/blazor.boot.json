@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "Check.Web",
   "resources": {
-    "hash": "sha256-MeFVdx8wxCMYBsQpXFZ09jFM5TFsJChN/9Jf1nWyEkw=",
+    "hash": "sha256-Df7Hv/vLUMMZZWu/Y/E/NgE2a54rdMYJHovfdvOLkGw=",
     "jsModuleNative": {
       "dotnet.native.8.0.16.khcj4p6y0x.js": "sha256-RiGT44TFZmHOY+Oqvb8o8r+BJVWex6+dPxFxrOiWvFY="
     },
@@ -15,7 +15,7 @@
       "icudt.dat": "sha256-tO5O5YzMTVSaKBboxAqezOQL9ewmupzV2JrB5Rkc8a4="
     },
     "assembly": {
-      "Check.Web.wasm": "sha256-40+h2ANYuPGJk/xcnE3lzjAnB65E9lBjeGWE2MdMex4=",
+      "Check.Web.wasm": "sha256-djriiy3pD1hdOc5Rasn4PFyLTG8UcsI/7p9Y8Y8Ia0U=",
       "Microsoft.AspNetCore.Authorization.wasm": "sha256-zTuWa2CVqwM2Q09thU8aUhwBsDc4aYCBgaEea1uGnYY=",
       "Microsoft.AspNetCore.Components.Forms.wasm": "sha256-QB9q96g/5iQH6kW2sNO13FcCHi3GQQc9dU0hJzfSRaA=",
       "Microsoft.AspNetCore.Components.wasm": "sha256-65555URXBfFhz4LvzNbH8TJipGjccZ2/uV2kRfw7KSA=",
