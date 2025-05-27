@@ -7,7 +7,7 @@
 	  
 	<!--<PublishTrimmed>false</PublishTrimmed>
     <BlazorWebAssemblyEnableLinking>true</BlazorWebAssemblyEnableLinking>-->
-	<StaticWebAssetBasePath>Check</StaticWebAssetBasePath>
+	<!--<StaticWebAssetBasePath>Check</StaticWebAssetBasePath>-->
   </PropertyGroup>
 
   <ItemGroup>

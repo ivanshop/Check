@@ -1,4 +1,4 @@
-name: Deploy Blazor WebAssembly to GitHub Pages
+name: Deploy Blazor App to GitHub Pages
 
 on:
   push:
@@ -11,28 +11,28 @@ permissions:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        dotnet-version: [ '8.0.x' ]
 
     steps:
-      - name: Clonación del repositorio
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Instala .NET 8
+      - name: Setup .NET
         uses: actions/setup-dotnet@v4
-        with: 
+        with:
           dotnet-version: '8.0.x'
 
-      - name: Publica la app
+      - name: Publish Blazor WebAssembly App
         run: |
-          dotnet publish ./Check.Web/Check.Web.csproj -c Release -o build_output \
+          dotnet publish Check.Web/Check.Web.csproj -c Release -o build_output \
             -p:PublishTrimmed=false \
             -p:PublishSingleFile=false \
             -p:BlazorEnableCompression=true \
             -p:BlazorWebAssemblyLoadAllGlobalizationData=true
 
-      - name: Sube a GitHub Pages
+      - name: Copy index.html to 404.html
+        run: cp build_output/wwwroot/index.html build_output/wwwroot/404.html
+
+      - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
