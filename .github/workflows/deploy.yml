@@ -1,11 +1,11 @@
-name: Deploy to GitHub Pages
+name: Deploy Blazor WASM to GitHub Pages
 
 on:
   push:
     branches: [ "master" ]
 
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 
@@ -35,7 +35,7 @@ jobs:
           cp -r Check.Web/bin/Release/net8.0/browser-wasm/publish/wwwroot/* public/Check/
           touch public/.nojekyll
 
-      - name: Upload artifact
+      - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v2
         with:
           path: public
