@@ -1,39 +1,45 @@
-name: Publish to GitHub Pages
+name: Deploy to GitHub Pages
 
 on:
   push:
     branches: [ "master" ]
 
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
-    
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+      
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: '8.0.x'
+      - name: Restore dependencies
+        run: dotnet restore Check.sln
 
-    - name: Restore dependencies
-      run: dotnet restore Check.sln
+      - name: Build
+        run: dotnet build Check.sln --configuration Release --no-restore
 
-    - name: Build
-      run: dotnet build Check.sln --configuration Release --no-restore
+      - name: Publish
+        run: dotnet publish Check.Web/Check.Web.csproj -c Release -o release --nologo
 
-    - name: Publish
-      run: dotnet publish Check.Web/Check.Web.csproj -c Release -o release --nologo
+      - name: Prepare artifact
+        run: |
+          mkdir -p public/Check
+          cp -r Check.Web/bin/Release/net8.0/browser-wasm/publish/wwwroot/* public/Check/
+          touch public/.nojekyll
 
-    - name: Prepare artifact
-      run: |
-        mkdir -p docs
-        cp -r Check.Web/bin/Release/net8.0/browser-wasm/publish/wwwroot/* docs/
-        touch docs/.nojekyll
-    - name: Upload artifact
-      uses: actions/upload-pages-artifact@v2
-      with:
-        path: public
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: public
+
   deploy:
     needs: build
     environment:
@@ -42,7 +48,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+        id: deployment
+        uses: actions/deploy-pages@v2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs
