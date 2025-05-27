@@ -38,11 +38,7 @@ jobs:
 
       - name: Copy index.html to 404.html
         run: |
-          if [ -f build_output/wwwroot/index.html ]; then
-            cp build_output/wwwroot/index.html build_output/wwwroot/404.html
-          else
-            echo "index.html not found, skipping copy"
-          fi
+          cp build_output/wwwroot/Check/index.html build_output/wwwroot/Check/404.html
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
