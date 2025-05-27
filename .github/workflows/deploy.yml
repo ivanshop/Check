@@ -1,49 +1,51 @@
-name: Deploy Blazor App to GitHub Pages
+name: Publish to GitHub Pages
 
 on:
   push:
-    branches:
-      - master
-
-permissions:
-  contents: write
+    branches: [ "master" ]
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-
+    
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+    - uses: actions/checkout@v4
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '8.0.x'
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0.x'
 
-      - name: Publish Blazor WebAssembly App
-        run: |
-          dotnet publish Check.Web/Check.Web.csproj -c Release -o build_output \
-            -p:PublishTrimmed=false \
-            -p:PublishSingleFile=false \
-            -p:BlazorEnableCompression=true \
-            -p:BlazorWebAssemblyLoadAllGlobalizationData=true \
-            -p:StaticWebAssetBasePath=Check \
-            -p:BasePath=/Check/
-      - name: List contents of build_output
-        run: |
-            echo "::group::build_output"
-            ls -R build_output
-            echo "::endgroup::"
+    - name: Restore dependencies
+      run: dotnet restore Check.sln
 
-      - name: Copy index.html to 404.html
-        run: |
-          cp build_output/wwwroot/Check/index.html build_output/wwwroot/Check/404.html
+    - name: Build
+      run: dotnet build Check.sln --configuration Release --no-restore
 
+    - name: Publish
+      run: dotnet publish Check.Web/Check.Web.csproj -c Release -o release --nologo
+
+    - name: Prepare artifact
+      run: |
+        mkdir -p docs
+        cp -r Check.Web/bin/Release/net8.0/browser-wasm/publish/wwwroot/* docs/
+        touch docs/.nojekyll
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v2
+      with:
+        path: public
+  deploy:
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
+        uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: build_output/wwwroot
+          publish_dir: ./docs
+          destination_dir: ./Check
           user_name: Ivan Patricio
           user_email: ivan.patricio.quispe@gmail.com
